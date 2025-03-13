@@ -4,14 +4,18 @@ const EXTERNAL_API =
   "https://ogienurdiana.com/career/ecc694ce4e7f6e45a5a7912cde9fe131";
 
 const parseData = (rawData) => {
-  const entries = rawData.split("\n");
-  return entries.map((entry) => {
-    const [nim, nama, ymd] = entry.split("|");
-    return {
-      nim,
-      nama,
-      ymd,
-    };
+  const entries = rawData.trim().split("\n");
+  const headers = entries[0].split("|");
+
+  return entries.slice(1).map((entry) => {
+    const values = entry.split("|");
+    let obj = {};
+
+    headers.forEach((header, index) => {
+      obj[header.toLowerCase()] = values[index];
+    });
+
+    return obj;
   });
 };
 
@@ -19,12 +23,10 @@ exports.searchByName = async (req, res) => {
   const { name } = req.query;
   try {
     const response = await axios.get(EXTERNAL_API);
-    console.log("ini data :", response.data);
     if (response.data.RC !== 200) {
       return res.status(500).json({ message: "Error dari API eksternal" });
     }
     const dataList = parseData(response.data.DATA);
-    console.log("ini data list :", dataList);
     const hasil = dataList.filter(
       (item) => item.nama && item.nama.toLowerCase() === name.toLowerCase()
     );
