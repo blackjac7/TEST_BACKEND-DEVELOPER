@@ -15,16 +15,17 @@ const parseData = (rawData) => {
   });
 };
 
-exports.searchByNama = async (req, res) => {
-  const { nama } = req.query;
+exports.searchByName = async (req, res) => {
+  const { name } = req.query;
   try {
     const response = await axios.get(EXTERNAL_API);
+
     if (response.data.RC !== 200) {
       return res.status(500).json({ message: "Error dari API eksternal" });
     }
     const dataList = parseData(response.data.DATA);
     const hasil = dataList.filter(
-      (item) => item.nama.toLowerCase() === nama.toLowerCase()
+      (item) => item.nama && item.nama.toLowerCase() === name.toLowerCase()
     );
     res.json(hasil);
   } catch (err) {
