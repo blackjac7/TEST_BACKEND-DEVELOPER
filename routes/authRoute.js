@@ -20,10 +20,10 @@ const authController = require("../controllers/authController");
  *             properties:
  *               username:
  *                 type: string
- *                 example: user123
+ *                 example: admin
  *               password:
  *                 type: string
- *                 example: password123
+ *                 example: admin
  *     responses:
  *       200:
  *         description: Login berhasil

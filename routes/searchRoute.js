@@ -16,6 +16,7 @@ const searchController = require("../controllers/searchController");
  *         required: true
  *         schema:
  *           type: string
+ *           example: Turner Mia
  *     responses:
  *       200:
  *         description: Data ditemukan.
